@@ -4,26 +4,54 @@ import Listings from './listings.js';
 import data from './_data/airbnbs.json';
 import './App.css';
 
-console.log(data);
-
 class App extends Component {
   constructor(){
     super();
     this.state = {
-      data,
-      
-      selectedItems:[
-  
-      ]
+      listing: data,
+      selectedListings:  []
     }
   }
+
+  // bookListing = (idx) => {
+  //   const selectedListing = this.state.listing[idx];
+  //   console.log(selectedListing);
+  //   if(this.state.selectedListings.includes(selectedListing)){
+  //     alert('Already selected this listing.');
+  //     return;
+  //   }
+    
+  //   this.setState(prevState => {
+  //     return{
+  //       selectedListings: [...prevState.selectedListings, selectedListing ] 
+  //     };  
+  //   });
+  // }
+
+  // onDeleteListing = (idx, e) => {
+  //   const selectedListings = Object.assign([], this.state.selectedListings);
+  //   selectedListings.splice(idx, 1);
+  //   this.setState({selectedListing:selectedListings});
+
+    // this.setState(prevState => {
+    //   return{
+    //     selectedListings: [...prevState.selectedListings].splice(idx, 1)
+    //   }
+    // })
+    // }
 
   render() {
     return(
       <div className="App">
-        <ShoppingCart />
+        <ShoppingCart 
+          listing={this.state.selectedListings}
+          // onDeleteListing={this.onDeleteListing}
+        />
         <hr />
-        <Listings data={this.state.data}/>
+        <Listings 
+          listing={this.state.listing}
+          // onBookListings={this.bookListing}
+        />
       </div>
     );
   }
