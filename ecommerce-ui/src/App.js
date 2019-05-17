@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import ShoppingCart from './shoppingCart.js';
-import Listings from './listings.js';
+import AbnbListings from './listings.js';
 import data from './_data/airbnbs.json';
+// import Total from './sctotal.js';
 import './App.css';
 
 class App extends Component {
@@ -9,48 +10,63 @@ class App extends Component {
     super();
     this.state = {
       listing: data,
-      selectedListings:  []
+      selectedListings:  [],
+      cartTotals: []
     }
   }
 
-  // bookListing = (idx) => {
-  //   const selectedListing = this.state.listing[idx];
-  //   console.log(selectedListing);
-  //   if(this.state.selectedListings.includes(selectedListing)){
-  //     alert('Already selected this listing.');
-  //     return;
-  //   }
+  bookListing = (idx) => {
+    const selectedListing = this.state.listing[idx];
+
+    if(this.state.selectedListings.includes(selectedListing)){
+      alert('Already selected this listing.');
+      return;
+    }
+
+    this.setState(prevState => {
+      return{
+        selectedListings: [...prevState.selectedListings, selectedListing],
+        cartTotals: [...prevState.cartTotals, selectedListing.payment.cost]
+      };
+    });
+  }
+
+  deleteListing = (idx) => {
+    this.setState(prevState => {
+      const selectedListings = [...prevState.selectedListings];
+      selectedListings.splice(idx, 1);
+      const cartTotals = [...prevState.cartTotals];
+      cartTotals.splice(idx, 1);
+      return{
+          selectedListings,
+          cartTotals
+        };
+    });
     
-  //   this.setState(prevState => {
-  //     return{
-  //       selectedListings: [...prevState.selectedListings, selectedListing ] 
-  //     };  
-  //   });
-  // }
-
-  // onDeleteListing = (idx, e) => {
-  //   const selectedListings = Object.assign([], this.state.selectedListings);
-  //   selectedListings.splice(idx, 1);
-  //   this.setState({selectedListing:selectedListings});
-
-    // this.setState(prevState => {
-    //   return{
-    //     selectedListings: [...prevState.selectedListings].splice(idx, 1)
-    //   }
-    // })
-    // }
+    }
 
   render() {
     return(
-      <div className="App">
-        <ShoppingCart 
-          listing={this.state.selectedListings}
-          // onDeleteListing={this.onDeleteListing}
-        />
+      <div>
+        <div className="ShoppingCartContainer">
+          <div className="scTitle">
+            <h4>ShoppingCart</h4>
+          </div>
+          <div className="scContent">
+            <ShoppingCart 
+              listing={this.state.selectedListings}
+              onDeleteListing={this.deleteListing}
+            />
+          </div>
+          <div className="scTotal">
+            <h4>Cart Total</h4>
+            <div>Total: ${this.state.cartTotals.reduce((total_Items, price) => total_Items + price, 0)}</div>
+          </div>
+        </div>
         <hr />
-        <Listings 
+        <AbnbListings 
           listing={this.state.listing}
-          // onBookListings={this.bookListing}
+          onBookListings={this.bookListing}
         />
       </div>
     );

@@ -1,18 +1,22 @@
 import React from 'react';
 
-class Listings extends React.Component{
+class AbnbListings extends React.Component{
     render(){
         const listings = this.props.listing.map((item, idx) => {
             return (
-                    <div key={idx}>
-                        <span><img src={item['image']}></img></span>
-                        <span>{item.title}</span>
-                        <span >{item.houseType}</span>
-                        <span >Location: {item.location.city}, {item.location.country}</span>
-                        <span >Host: {item.host.name}</span>
-                        <span >Payment: ${item.payment.cost}</span>
-                        <span>Rating: {item.rating.stars} </span>
-                        {/* <button onClick={this.props.onBookListings(idx)}>Book</button> */}
+                    <div key={idx} className="Listing">
+                        <div className="iContainer">
+                            <img src={item['image']}></img>
+                        </div>
+                        <div className="ListingDetails">
+                            <h4>{item.title}</h4>
+                            <div >House Type: {item.houseType}</div>
+                            <div >Location: {item.location.city}, {item.location.country}</div>
+                            <div >Host: {item.host.name}</div>
+                            <div >Payment: ${item.payment.cost}</div>
+                            <div>Rating: {item.rating.stars} </div>
+                            <button className="btn" onClick={() => this.props.onBookListings(idx)}>Book</button>
+                        </div>  
                     </div>
             );
         });
@@ -27,4 +31,4 @@ class Listings extends React.Component{
     }
 }
 
-export default Listings;
+export default AbnbListings;
