@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ShoppingCart from './shoppingCart.js';
 import AbnbListings from './listings.js';
-import data from './_data/airbnbs.json';
+import Data from './_data/airbnbs.json';
 // import Total from './sctotal.js';
 import './App.css';
 
@@ -9,7 +9,7 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      listing: data,
+      listing: [...Data],
       selectedListings:  [],
       cartTotals: []
     }

@@ -1,6 +1,17 @@
 import React from 'react';
+import { PropTypes } from 'prop-types';
 
 class AbnbListings extends React.Component{
+    static propTypes = {
+        listings: PropTypes.shape( {
+            image: PropTypes.string,
+            title: PropTypes.string,
+            houseType: PropTypes.string,
+            location: PropTypes.string,
+            payment: PropTypes.number,
+            rating: PropTypes.string,
+        }) 
+    }
     render(){
         const listings = this.props.listing.map((item, idx) => {
             return (
