@@ -1,31 +1,29 @@
 import React, { Component } from 'react';
 import ShoppingCart from './shoppingCart.js';
-import AbnbListings from './listings.js';
+import Listings from './listings.js';
 import Data from './_data/airbnbs.json';
-// import Total from './sctotal.js';
 import './App.css';
 
 class App extends Component {
   constructor(){
     super();
     this.state = {
-      listing: [...Data],
-      selectedListings:  [],
+      listing: Data,
+      shoppingCart:  [],
       cartTotals: []
     }
   }
 
   bookListing = (idx) => {
     const selectedListing = this.state.listing[idx];
-
-    if(this.state.selectedListings.includes(selectedListing)){
+    if(this.state.shoppingCart.includes(selectedListing)){
       alert('Already selected this listing.');
       return;
     }
 
     this.setState(prevState => {
       return{
-        selectedListings: [...prevState.selectedListings, selectedListing],
+        shoppingCart: [...prevState.shoppingCart, selectedListing],
         cartTotals: [...prevState.cartTotals, selectedListing.payment.cost]
       };
     });
@@ -33,12 +31,12 @@ class App extends Component {
 
   deleteListing = (idx) => {
     this.setState(prevState => {
-      const selectedListings = [...prevState.selectedListings];
-      selectedListings.splice(idx, 1);
+      const shoppingCart = [...prevState.shoppingCart];
+      shoppingCart.splice(idx, 1);
       const cartTotals = [...prevState.cartTotals];
       cartTotals.splice(idx, 1);
       return{
-          selectedListings,
+          shoppingCart,
           cartTotals
         };
     });
@@ -54,7 +52,7 @@ class App extends Component {
           </div>
           <div className="scContent">
             <ShoppingCart 
-              listing={this.state.selectedListings}
+              shoppingCart={this.state.shoppingCart}
               onDeleteListing={this.deleteListing}
             />
           </div>
@@ -64,7 +62,7 @@ class App extends Component {
           </div>
         </div>
         <hr />
-        <AbnbListings 
+        <Listings
           listing={this.state.listing}
           onBookListings={this.bookListing}
         />
